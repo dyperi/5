@@ -1,7 +1,6 @@
-# [![HaxExtend](https://github.com/mybdye/HaxExtend/actions/workflows/main.yml/badge.svg)](https://github.com/mybdye/HaxExtend/actions/workflows/main.yml)
-#### Dev 记录
+#### 记录
 ##### To Do List
-- [ ] cloud flare 5s, undetected_chromedriver (30s!!!)
+- [x] cloud flare 5s, undetected_chromedriver (30s!!!)
 ```
 - Hax loading...
 cloudflare detection test
@@ -61,7 +60,7 @@ or
 <img src=./result.jpg width=50% />
 
 #### How This Work
-- https://github.com/mybdye/HaxExtend/blob/master/howthiswork.md
+- ./howthiswork.md
 
 #### 资料参考
 - https://www.python.org/
