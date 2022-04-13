@@ -20,13 +20,13 @@ try:
     USER_ID = os.environ['USER_ID']
 except:
     # 本地调试用
-    USER_ID = '334255766'
+    USER_ID = ''
 
 try:
     PASS_WD = os.environ['PASS_WD']
 except:
     # 本地调试用
-    PASS_WD = '44Hzgqgnd6XptBW'
+    PASS_WD = ''
 
 try:
     BARK_KEY = os.environ['BARK_KEY']
@@ -237,37 +237,38 @@ def submit():
         wait_until(Text('VPS Information').exists)
         print('- VPS Information found!')
         renewVPS()
-    except:
+    except Exception as e:
         #print('- title:', Window().title)
         body = ' *** 💣 some error in func submit!, stop running ***'
         # login()
         #push(body)
         print(body)
-        #screenshot() # debug
+        print('Error:', e)
+        screenshot() # debug
         #kill_browser()
 
 def delay(i):
     time.sleep(i)
 
-# def screenshot(): # debug
-#     driver = get_driver()
-#     driver.get_screenshot_as_file(os.getcwd() + imgFile)
-#     print('- screenshot done')
-#     #driver.tab_new(urlMJJ)
-#     driver.execute_script('''window.open('http://mjjzp.cf/',"_blank")''')
-#     switch_to('白嫖图床')
-#     delay(2)
-#     driver.find_element(By.ID, 'image').send_keys(os.getcwd()+imgFile)
-#     delay(4)
-#     click('上传')
-#     wait_until(Text('完成').exists)
-#     print('- upload done')
-#     # textList = find_all(S('#code-url'))
-#     # result = [key.web_element.text for key in textList][0]
-#     result = S('#code-url').web_element.text
-#     print('*** capture src:', result)
-#     driver.close()
-#     driver.switch_to.window(driver.window_handles[0])
+def screenshot(): # debug
+    driver = get_driver()
+    driver.get_screenshot_as_file(os.getcwd() + imgFile)
+    print('- screenshot done')
+    #driver.tab_new(urlMJJ)
+    driver.execute_script('''window.open('http://mjjzp.cf/',"_blank")''')
+    switch_to('白嫖图床')
+    delay(2)
+    driver.find_element(By.ID, 'image').send_keys(os.getcwd()+imgFile)
+    delay(4)
+    click('上传')
+    wait_until(Text('完成').exists)
+    print('- upload done')
+    # textList = find_all(S('#code-url'))
+    # result = [key.web_element.text for key in textList][0]
+    result = S('#code-url').web_element.text
+    print('*** capture src:', result)
+    driver.close()
+    driver.switch_to.window(driver.window_handles[0])
 
 
 def renewVPS():
