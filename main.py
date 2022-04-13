@@ -3,6 +3,7 @@
 
 import os
 import ssl
+import sys
 import time
 import urllib
 import requests
@@ -242,9 +243,10 @@ def submit():
         body = ' *** 💣 some error in func submit!, stop running ***'
         # login()
         #push(body)
-        print(body)
+        #print(body)
         print('Error:', e)
         screenshot() # debug
+        sys.exit(body)
         #kill_browser()
 
 def delay(i):
