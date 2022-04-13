@@ -256,9 +256,10 @@ def screenshot(): # debug
     driver = get_driver()
     driver.get_screenshot_as_file(os.getcwd() + imgFile)
     print('- screenshot done')
-    #driver.tab_new(urlMJJ)
-    driver.execute_script('''window.open('http://mjjzp.cf/',"_blank")''')
-    switch_to('白嫖图床')
+    driver.tab_new(urlMJJ)
+    #driver.execute_script('''window.open('http://mjjzp.cf/',"_blank")''')
+    driver.switch_to.window(driver.window_handles[1])
+    #switch_to('白嫖图床')
     delay(2)
     driver.find_element(By.ID, 'image').send_keys(os.getcwd()+imgFile)
     delay(4)
@@ -270,7 +271,7 @@ def screenshot(): # debug
     result = S('#code-url').web_element.text
     print('*** capture src:', result)
     driver.close()
-    driver.switch_to.window(driver.window_handles[0])
+    #driver.switch_to.window(driver.window_handles[0])
 
 
 def renewVPS():
