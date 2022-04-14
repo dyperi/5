@@ -197,7 +197,8 @@ def login():
     else:
         write(PASS_WD, into=S('@password'))
 
-    if Text('reCAPTCHA').exists():
+    #if Text('reCAPTCHA').exists():
+    if Text('I\'m not a robot').exists() or Text('我不是机器人'): #
         # if S('#recaptcha-token').exists():
         print('- reCAPTCHA found!')
         block = reCAPTCHA()
@@ -293,7 +294,8 @@ def renewVPS():
         write(captcha, into=S('@captcha'))
         print('- check agreement')
         click(S('@agreement'))
-        if Text('reCAPTCHA').exists():
+        #if Text('reCAPTCHA').exists():
+        if Text('I\'m not a robot').exists() or Text('我不是机器人'): #
             print('- reCAPTCHA found!')
             block = reCAPTCHA()
             if block:
