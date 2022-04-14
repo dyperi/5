@@ -49,28 +49,16 @@ except:
 
 audioFile = '/audio.mp3'
 imgFile = '/capture.png'
-urlLogin = 'https://woiden.id/login'
-urlRenew = 'https://woiden.id/vps-renew/'
-urlInfo = 'https://woiden.id/vps-info'
-urlSpeech = 'https://speech-to-text-demo.ng.bluemix.net/'
-urlMJJ = 'http://mjjzp.cf/'
+urlLogin = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvbG9naW4=')
+urlRenew = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLXJlbmV3')
+urlInfo = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLWluZm8=')
+urlSpeech = url_decode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
+urlMJJ = url_decode('aHR0cDovL21qanpwLmNm')
 
-# def switchToWindowSpeechToText():
-#     print('- switch to window Speech to Text')
-#     if Window('Speech to Text').exists():
-#         switch_to('Speech to Text')
-#     else:
-#         # Selenium open a new window
-#         driver = get_driver()
-#         #driver.tab_new(urlSpeech)
-#         driver.execute_script('''window.open('https://speech-to-text-demo.ng.bluemix.net/',"_blank")''')
-#         switch_to('Speech to Text')
+def url_decode(s):
+    return str(base64.b64decode(s+'='*(4-len(s)%4))).split('\'')[1]
 
 def speechToText():
-    # switchToWindowSpeechToText()
-    # driver = get_driver()
-    # driver = get_driver()
-    # get_driver().execute_script('''window.open('https://speech-to-text-demo.ng.bluemix.net/',"_blank")''')
     driver.tab_new(urlSpeech)
     delay(2)
     driver.switch_to.window(driver.window_handles[1])
@@ -141,9 +129,6 @@ def getaudiolink():
         print('*** audio download element not found, stop running ***')
         #print('- title:', Window().title)
         #screenshot() # debug
-        #refresh()
-        #login()
-        #renewVPS()
 
 def reCAPTCHA():
     global block
@@ -346,7 +331,7 @@ def push(body):
         print('*** No BARK_KEY ***')
     else:
         barkurl = 'https://api.day.app/' + BARK_KEY
-        title = 'HaxExtend'
+        title = 'W-Extend'
         rq_bark = requests.get(url=f'{barkurl}/{title}/{body}?isArchive=1')
         if rq_bark.status_code == 200:
             print('- bark push Done!')
@@ -357,7 +342,7 @@ def push(body):
     if TG_BOT_TOKEN == '' or TG_USER_ID == '':
         print('*** No TG_BOT_TOKEN or TG_USER_ID ***')
     else:
-        body = 'HaxExtend\n\n' + body
+        body = 'W-Extend\n\n' + body
         server = 'https://api.telegram.org'
         tgurl = server + '/bot' + TG_BOT_TOKEN + '/sendMessage'
         rq_tg = requests.post(tgurl, data={'chat_id': TG_USER_ID, 'text': body}, headers={
@@ -408,4 +393,3 @@ delay(2)
 set_driver(driver)
 go_to(urlLogin)
 login()
-#speechToText()
