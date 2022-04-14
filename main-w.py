@@ -47,14 +47,6 @@ except:
     # 本地调试用
     TG_USER_ID = ''
 
-audioFile = '/audio.mp3'
-imgFile = '/capture.png'
-urlLogin = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvbG9naW4=')
-urlRenew = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLXJlbmV3')
-urlInfo = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLWluZm8=')
-urlSpeech = url_decode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
-urlMJJ = url_decode('aHR0cDovL21qanpwLmNm')
-
 def url_decode(s):
     return str(base64.b64decode(s+'='*(4-len(s)%4))).split('\'')[1]
 
@@ -379,10 +371,17 @@ def funcCAPTCHA():
     print('- captcha result:', number1, method, number2, '=', captcha_result)
     return captcha_result
 
+audioFile = '/audio.mp3'
+imgFile = '/capture.png'
+urlLogin = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvbG9naW4=')
+urlRenew = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLXJlbmV3')
+urlInfo = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLWluZm8=')
+urlSpeech = url_decode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
+urlMJJ = url_decode('aHR0cDovL21qanpwLmNm')
 block = False
+
 print('- loading...')
 #start_chrome(url=urlLogin)
-
 #if __name__ == "__main__":
 #uc.TARGET_VERSION = 99
 #driver = uc.Chrome()
