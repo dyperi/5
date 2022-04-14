@@ -1,19 +1,9 @@
 #### 记录
 ##### To Do List
-- [x] cloud flare 5s, undetected_chromedriver (30s!!!)
-```
-- Hax loading...
-cloudflare detection test
-- title before: Just a moment...
-- title after 10s: Just a moment...
-- title after 20s: Just a moment...
-- title after 30s: nowSecure
-```
-- [x] login, 异常跳转,audio 元素找不到, 元素遮挡问题
-
+- [ ] TBD
 
 #### 状态
-- 
+- Hax reCAPTCHA 关闭中，无法 renew
 
 #### 项目进度
 - 0330 添加了 tg push，`func submit` 也还有些 ~~小~~ 问题
