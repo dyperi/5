@@ -248,7 +248,7 @@ def screenshot(): # debug
     # textList = find_all(S('#code-url'))
     # result = [key.web_element.text for key in textList][0]
     result = S('#code-url').web_element.text
-    print('*** capture src:', result)
+    print('*** 📷 capture src:', result)
     driver.close()
     #driver.switch_to.window(driver.window_handles[0])
 
