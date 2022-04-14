@@ -5,6 +5,7 @@ import os
 import ssl
 import sys
 import time
+import base64
 import urllib
 import requests
 import undetected_chromedriver as uc
