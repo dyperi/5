@@ -5,6 +5,7 @@ import os
 import ssl
 import sys
 import time
+import base64
 import urllib
 import requests
 import undetected_chromedriver as uc
@@ -47,30 +48,10 @@ except:
     # 本地调试用
     TG_USER_ID = ''
 
-audioFile = '/audio.mp3'
-imgFile = '/capture.png'
-urlLogin = 'https://hax.co.id/login'
-urlRenew = 'https://hax.co.id/vps-renew/'
-urlInfo = 'https://hax.co.id/vps-info'
-urlSpeech = 'https://speech-to-text-demo.ng.bluemix.net/'
-urlMJJ = 'http://mjjzp.cf/'
-
-# def switchToWindowSpeechToText():
-#     print('- switch to window Speech to Text')
-#     if Window('Speech to Text').exists():
-#         switch_to('Speech to Text')
-#     else:
-#         # Selenium open a new window
-#         driver = get_driver()
-#         #driver.tab_new(urlSpeech)
-#         driver.execute_script('''window.open('https://speech-to-text-demo.ng.bluemix.net/',"_blank")''')
-#         switch_to('Speech to Text')
+def url_decode(s):
+    return str(base64.b64decode(s+'='*(4-len(s)%4))).split('\'')[1]
 
 def speechToText():
-    # switchToWindowSpeechToText()
-    # driver = get_driver()
-    # driver = get_driver()
-    # get_driver().execute_script('''window.open('https://speech-to-text-demo.ng.bluemix.net/',"_blank")''')
     driver.tab_new(urlSpeech)
     delay(2)
     driver.switch_to.window(driver.window_handles[1])
@@ -139,11 +120,6 @@ def getaudiolink():
         block = True
     else:
         print('*** audio download element not found, stop running ***')
-        #print('- title:', Window().title)
-        #screenshot() # debug
-        #refresh()
-        #login()
-        #renewVPS()
 
 def reCAPTCHA():
     global block
@@ -393,6 +369,14 @@ def funcCAPTCHA():
 
     print('- captcha result:', number1, method, number2, '=', captcha_result)
     return captcha_result
+
+audioFile = '/audio.mp3'
+imgFile = '/capture.png'
+urlLogin = url_decode('aHR0cHM6Ly9oYXguY28uaWQvbG9naW4=')
+urlRenew = url_decode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLXJlbmV3')
+urlInfo = url_decode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLWluZm8=')
+urlSpeech = url_decode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
+urlMJJ = url_decode('aHR0cDovL21qanpwLmNm')
 
 block = False
 print('- Hax loading...')
