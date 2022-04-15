@@ -48,8 +48,15 @@ except:
     # 本地调试用
     TG_USER_ID = ''
 
-def url_decode(s):
+def urlDecode(s):
     return str(base64.b64decode(s+'='*(4-len(s)%4))).split('\'')[1]
+
+def scroll_down(key):
+    i = 0
+    while not S(key).exists():
+        scroll_down(num_pixels=100)
+        i = i + 1
+        print('- scroll down 100px * %d for searching S(\'%s\')' % (i, key))
 
 def speechToText():
     driver.tab_new(urlSpeech)
@@ -57,7 +64,7 @@ def speechToText():
     driver.switch_to.window(driver.window_handles[1])
     set_driver(driver)
     # 向下滚动
-    scroll_down(num_pixels=800)
+    # scroll_down(num_pixels=800)
     text = ''
     i = 0
     while text == '':
@@ -76,7 +83,7 @@ def speechToText():
     driver.close()
     return text
 
-def getaudiolink():
+def getAudioLink():
     global block
     print('- audio file link searching...')
     if Text('Alternatively, download audio as MP3').exists() or Text('或者以 MP3 格式下载音频').exists():
@@ -109,7 +116,7 @@ def getaudiolink():
         if Text('Multiple correct solutions required - please solve more.').exists() or Text(
                 '需要提供多个正确答案 - 请回答更多问题。').exists():
             print('*** Multiple correct solutions required - please solve more. ***')
-            getaudiolink()
+            getAudioLink()
         delay(1)
 
     elif Text('Try again later').exists() or Text('稍后重试').exists():
@@ -134,7 +141,7 @@ def reCAPTCHA():
         click(S('#recaptcha-audio-button'))
         #screenshot() # debug
         delay(4)
-        getaudiolink()
+        getAudioLink()
         return block
 
 def cloudflareDT():
@@ -151,15 +158,9 @@ def login():
     delay(1)
     # CF
     cloudflareDT()
-    
-    wait_until(Text('Login to Woiden.id').exists)
 
-    i = 0
-    while Text('Submit').exists() == False:
-        # 向下滚动
-        scroll_down(num_pixels=50)
-        i = i + 1
-        print('- 50px * ', i)
+    scroll_down('@login')
+    #wait_until(Text('Login to Woiden.id').exists)
 
     # else:
     print('- fill user id')
@@ -192,8 +193,7 @@ def login():
 
 def submit():
     print('- submit')
-    # 向下滚动，有时候提示找不到按钮（被其他控件cover）
-    #scroll_down(num_pixels=500)
+
     click('Submit')
     print('- submit clicked')
     delay(2)
@@ -259,9 +259,9 @@ def renewVPS():
     go_to(urlRenew)
     delay(1)
     cloudflareDT()
-    # 向下滚动
-    scroll_down(num_pixels=930)
-    
+
+    scroll_down('@submit_button')
+
     delay(1)
     if S('#web_address').exists():
         print('- fill web address')
@@ -369,16 +369,17 @@ def funcCAPTCHA():
         # 应该没有 但还是写了
         captcha_result = number1 / number2
 
-    print('- captcha result:', number1, method, number2, '=', captcha_result)
+    print('- captcha result: %d %s %d = %s' % (number1, method, number2, captcha_result))
+
     return captcha_result
 
 audioFile = '/audio.mp3'
 imgFile = '/capture.png'
-urlLogin = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvbG9naW4=')
-urlRenew = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLXJlbmV3')
-urlInfo = url_decode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLWluZm8=')
-urlSpeech = url_decode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
-urlMJJ = url_decode('aHR0cDovL21qanpwLmNm')
+urlLogin = urlDecode('aHR0cHM6Ly93b2lkZW4uaWQvbG9naW4=')
+urlRenew = urlDecode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLXJlbmV3')
+urlInfo = urlDecode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLWluZm8=')
+urlSpeech = urlDecode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
+urlMJJ = urlDecode('aHR0cDovL21qanpwLmNm')
 block = False
 
 print('- loading...')
