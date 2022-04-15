@@ -131,7 +131,7 @@ def getAudioLink():
     else:
         print('*** audio download element not found, stop running ***')
         # print('- title:', Window().title)
-        # screenshot() # debug
+        screenshot() # debug
 
 
 def reCAPTCHA():
