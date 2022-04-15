@@ -128,10 +128,15 @@ def getAudioLink():
         body = ' *** 💣 Possibly blocked by google! ***\n' + textblock
         push(body)
         block = True
+
+    elif not CheckBox('I\'m not a robot').is_checked() or CheckBox('我不是机器人').is_checked():
+        print('*** checkbox issue ***')
+        reCAPTCHA()
+
     else:
         print('*** audio download element not found, stop running ***')
         # print('- title:', Window().title)
-        # screenshot() # debug
+        screenshot() # debug
 
 
 def reCAPTCHA():
