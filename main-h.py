@@ -14,7 +14,6 @@ from helium import *
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-
 # 关闭证书验证
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -48,8 +47,18 @@ except:
     # 本地调试用
     TG_USER_ID = ''
 
-def url_decode(s):
-    return str(base64.b64decode(s+'='*(4-len(s)%4))).split('\'')[1]
+
+def urlDecode(s):
+    return str(base64.b64decode(s + '=' * (4 - len(s) % 4))).split('\'')[1]
+
+
+def scrollDown(key):
+    i = 0
+    while not S(key).exists():
+        scroll_down(num_pixels=100)
+        i = i + 1
+        print('- scroll down 100px * %d for searching S(\'%s\')' % (i, key))
+
 
 def speechToText():
     driver.tab_new(urlSpeech)
@@ -57,7 +66,7 @@ def speechToText():
     driver.switch_to.window(driver.window_handles[1])
     set_driver(driver)
     # 向下滚动
-    scroll_down(num_pixels=800)
+    # scroll_down(num_pixels=800)
     text = ''
     i = 0
     while text == '':
@@ -76,7 +85,8 @@ def speechToText():
     driver.close()
     return text
 
-def getaudiolink():
+
+def getAudioLink():
     global block
     print('- audio file link searching...')
     if Text('Alternatively, download audio as MP3').exists() or Text('或者以 MP3 格式下载音频').exists():
@@ -86,12 +96,12 @@ def getaudiolink():
         except:
             src = Link('或者以 MP3 格式下载音频').href
         print('- get src:', src)
-        
+
         # 下载音频文件
         urllib.request.urlretrieve(src, os.getcwd() + audioFile)
         delay(4)
         text = speechToText()
-        print('- waiting for switch to hax window')
+        print('- waiting for switch to first window')
 
         # 切回第一个 tab
         # driver = get_driver()
@@ -109,7 +119,7 @@ def getaudiolink():
         if Text('Multiple correct solutions required - please solve more.').exists() or Text(
                 '需要提供多个正确答案 - 请回答更多问题。').exists():
             print('*** Multiple correct solutions required - please solve more. ***')
-            getaudiolink()
+            getAudioLink()
         delay(1)
 
     elif Text('Try again later').exists() or Text('稍后重试').exists():
@@ -120,20 +130,24 @@ def getaudiolink():
         block = True
     else:
         print('*** audio download element not found, stop running ***')
+        # print('- title:', Window().title)
+        # screenshot() # debug
+
 
 def reCAPTCHA():
     global block
     print('- click checkbox')
     click(S('.recaptcha-checkbox-borderAnimation'))
-    #screenshot() # debug
+    # screenshot() # debug
     delay(4)
     if S('#recaptcha-audio-button').exists():
         print('- audio button found')
         click(S('#recaptcha-audio-button'))
-        #screenshot() # debug
+        # screenshot() # debug
         delay(4)
-        getaudiolink()
+        getAudioLink()
         return block
+
 
 def cloudflareDT():
     i = 0
@@ -144,20 +158,14 @@ def cloudflareDT():
     if i > 0:
         print('*** cloudflare 5s detection finish! ***')
 
+
 def login():
     print('- login')
     delay(1)
     # CF
     cloudflareDT()
-    
-    wait_until(Text('Login to Hax.co.id').exists)
 
-    i = 0
-    while Text('Submit').exists() == False:
-        # 向下滚动
-        scroll_down(num_pixels=50)
-        i = i + 1
-        print('- 50px * ', i)
+    scrollDown('@login')
 
     # else:
     print('- fill user id')
@@ -173,14 +181,14 @@ def login():
     else:
         write(PASS_WD, into=S('@password'))
 
-    #if Text('reCAPTCHA').exists():
+    # if Text('reCAPTCHA').exists():
     if Text('I\'m not a robot').exists() or Text('我不是机器人').exists():
         # if S('#recaptcha-token').exists():
         print('- reCAPTCHA found!')
         block = reCAPTCHA()
         if block:
             print('*** Possibly blocked by google! ***')
-            #kill_broowser()
+            # kill_broowser()
         else:
             submit()
     else:
@@ -190,8 +198,7 @@ def login():
 
 def submit():
     print('- submit')
-    # 向下滚动，有时候提示找不到按钮（被其他控件cover）
-    #scroll_down(num_pixels=500)
+
     click('Submit')
     print('- submit clicked')
     delay(2)
@@ -201,9 +208,9 @@ def submit():
     try:
         wait_until(Text('Please correct your captcha!.').exists)
         print('*** Network issue maybe, reCAPTCHA load fail! ***')
-        #go_to(urlLogin)
-        #delay(2)
-        #login()
+        # go_to(urlLogin)
+        # delay(2)
+        # login()
     except:
         pass
     try:
@@ -216,29 +223,31 @@ def submit():
         print('- VPS Information found!')
         renewVPS()
     except Exception as e:
-        #print('- title:', Window().title)
+        # print('- title:', Window().title)
         body = ' *** 💣 some error in func submit!, stop running ***'
         # login()
-        #push(body)
-        #print(body)
+        # push(body)
+        # print(body)
         print('Error:', e)
-        screenshot() # debug
+        screenshot()  # debug
         sys.exit(body)
-        #kill_browser()
+        # kill_browser()
+
 
 def delay(i):
     time.sleep(i)
 
-def screenshot(): # debug
+
+def screenshot():  # debug
     driver = get_driver()
     driver.get_screenshot_as_file(os.getcwd() + imgFile)
     print('- screenshot done')
     driver.tab_new(urlMJJ)
-    #driver.execute_script('''window.open('http://mjjzp.cf/',"_blank")''')
+    # driver.execute_script('''window.open('http://mjjzp.cf/',"_blank")''')
     driver.switch_to.window(driver.window_handles[1])
-    #switch_to('白嫖图床')
+    # switch_to('白嫖图床')
     delay(2)
-    driver.find_element(By.ID, 'image').send_keys(os.getcwd()+imgFile)
+    driver.find_element(By.ID, 'image').send_keys(os.getcwd() + imgFile)
     delay(4)
     click('上传')
     wait_until(Text('完成').exists)
@@ -248,7 +257,7 @@ def screenshot(): # debug
     result = S('#code-url').web_element.text
     print('*** 📷 capture src:', result)
     driver.close()
-    #driver.switch_to.window(driver.window_handles[0])
+    # driver.switch_to.window(driver.window_handles[0])
 
 
 def renewVPS():
@@ -257,20 +266,20 @@ def renewVPS():
     go_to(urlRenew)
     delay(1)
     cloudflareDT()
-    # 向下滚动
-    scroll_down(num_pixels=930)
-    
+
+    scrollDown('@submit_button')
+
     delay(1)
     if S('#web_address').exists():
         print('- fill web address')
-        write('hax.co.id', into=S('#web_address'))
+        write(urlWrite, into=S('#web_address'))
         # 过 CAPTCHA
         captcha = funcCAPTCHA()
         print('- fill captcha result')
         write(captcha, into=S('@captcha'))
         print('- check agreement')
         click(S('@agreement'))
-        #if Text('reCAPTCHA').exists():
+        # if Text('reCAPTCHA').exists():
         if Text('I\'m not a robot').exists() or Text('我不是机器人').exists():
             print('- reCAPTCHA found!')
             block = reCAPTCHA()
@@ -279,9 +288,9 @@ def renewVPS():
                 result = [key.web_element.text for key in textList][0]
                 body = '*** Possibly blocked by google! ***'
                 print(body, '\n', result)
-                #renewVPS()
+                # renewVPS()
                 push(body)
-                #kill_browser()
+                # kill_browser()
             else:
                 click('Renew VPS')
         else:
@@ -292,13 +301,13 @@ def renewVPS():
             body = '🎉 ' + body
         print('- extend result:', body)
         push(body)
-        #delay(2)
-        #kill_browser()
+        # delay(2)
+        # kill_browser()
     else:
-        #renewVPS()
-        #kill_browser()
+        # renewVPS()
+        # kill_browser()
         print(' *** 💣 some error in func renew!, stop running ***')
-        #screenshot()
+        # screenshot()
 
 
 def extendResult():
@@ -307,7 +316,7 @@ def extendResult():
     if S('#response').exists():
         # 向下滚动
         scroll_down(num_pixels=300)
-        
+
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
     else:
@@ -353,8 +362,12 @@ def funcCAPTCHA():
     method = [key.web_element.text for key in divList][0][0]
     # Helium 下没有好的方法拿到两个小图片的 src，切换到 selenium
     # driver = get_driver()
-    number1 = int(driver.find_element(By.XPATH, '//*[@id="form-submit"]/div[2]/div[1]/img[1]').get_attribute('src').split('-')[1][0])
-    number2 = int(driver.find_element(By.XPATH, '//*[@id="form-submit"]/div[2]/div[1]/img[2]').get_attribute('src').split('-')[1][0])
+    number1 = int(
+        driver.find_element(By.XPATH, '//*[@id="form-submit"]/div[2]/div[1]/img[1]').get_attribute('src').split('-')[1][
+            0])
+    number2 = int(
+        driver.find_element(By.XPATH, '//*[@id="form-submit"]/div[2]/div[1]/img[2]').get_attribute('src').split('-')[1][
+            0])
 
     if method == '+':
         captcha_result = number1 + number2
@@ -367,29 +380,31 @@ def funcCAPTCHA():
         # 应该没有 但还是写了
         captcha_result = number1 / number2
 
-    print('- captcha result:', number1, method, number2, '=', captcha_result)
+    print('- captcha result: %d %s %d = %s' % (number1, method, number2, captcha_result))
+
     return captcha_result
+
 
 audioFile = '/audio.mp3'
 imgFile = '/capture.png'
-urlLogin = url_decode('aHR0cHM6Ly9oYXguY28uaWQvbG9naW4=')
-urlRenew = url_decode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLXJlbmV3')
-urlInfo = url_decode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLWluZm8=')
-urlSpeech = url_decode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
-urlMJJ = url_decode('aHR0cDovL21qanpwLmNm')
-
+##
+urlWrite = urlDecode('aGF4LmNvLmlk')
+urlLogin = urlDecode('aHR0cHM6Ly9oYXguY28uaWQvbG9naW4=')
+urlRenew = urlDecode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLXJlbmV3')
+##
+urlSpeech = urlDecode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
+urlMJJ = urlDecode('aHR0cDovL21qanpwLmNm')
 block = False
-print('- Hax loading...')
-#start_chrome(url=urlLogin)
 
-#if __name__ == "__main__":
-#uc.TARGET_VERSION = 99
-#driver = uc.Chrome()
-#driver.maximize_window()
+print('- loading...')
+# start_chrome(url=urlLogin)
+# if __name__ == "__main__":
+# uc.TARGET_VERSION = 99
+# driver = uc.Chrome()
+# driver.maximize_window()
 driver = uc.Chrome(use_subprocess=True)
 driver.set_window_size(785, 627)
 delay(2)
 set_driver(driver)
 go_to(urlLogin)
 login()
-#speechToText()
