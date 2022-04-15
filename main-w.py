@@ -51,7 +51,7 @@ except:
 def urlDecode(s):
     return str(base64.b64decode(s+'='*(4-len(s)%4))).split('\'')[1]
 
-def scroll_down(key):
+def scrollDown(key):
     i = 0
     while not S(key).exists():
         scroll_down(num_pixels=100)
@@ -159,7 +159,7 @@ def login():
     # CF
     cloudflareDT()
 
-    scroll_down('@login')
+    scrollDown('@login')
     #wait_until(Text('Login to Woiden.id').exists)
 
     # else:
@@ -260,7 +260,7 @@ def renewVPS():
     delay(1)
     cloudflareDT()
 
-    scroll_down('@submit_button')
+    scrollDown('@submit_button')
 
     delay(1)
     if S('#web_address').exists():
