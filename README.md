@@ -1,10 +1,6 @@
 ## 学习记录
-#### 🤔 To Do List
+#### ✏️ To Do List
 - [ ] 暂无
-
-#### 💡 当前状态
-- [![H-Extend](https://github.com/mybdye/Project-H-W/actions/workflows/main-h.yml/badge.svg)](https://github.com/mybdye/Project-H-W/actions/workflows/main-h.yml)
-- [![W-Extend](https://github.com/mybdye/Project-H-W/actions/workflows/main-w.yml/badge.svg)](https://github.com/mybdye/Project-H-W/actions/workflows/main-w.yml)
 
 #### 🍳 烹饪方法：1.1 
 - Settings > Secrets > Actions 添加以下变量
