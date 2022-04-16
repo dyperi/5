@@ -319,8 +319,13 @@ def extendResult():
 
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
+        if result == 'Robot verification failed, please try again.':
+            print('*** %s ***' % result)
+            renewVPS()
     else:
-        renewVPS()
+        print(' *** 💣 some error in func renew!, stop running ***')
+        screenshot()
+        #renewVPS()
     return result
 
 
