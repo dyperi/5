@@ -150,13 +150,16 @@ def reCAPTCHA():
 
 
 def cloudflareDT():
-    i = 0
-    while Text('Checking your browser before accessing').exists():
-        i = i + 1
-        print('*** cloudflare 5s detection *** ', i)
-        time.sleep(1)
-    if i > 0:
-        print('*** cloudflare 5s detection finish! ***')
+    try:
+        i = 0
+        while Text('Checking your browser before accessing').exists():
+            i = i + 1
+            print('*** cloudflare 5s detection *** ', i)
+            time.sleep(1)
+        if i > 0:
+            print('*** cloudflare 5s detection finish! ***')
+    except Exception as e:
+        print('Error:', e)
 
 
 def login():
