@@ -119,6 +119,7 @@ def getAudioLink():
         if Text('Multiple correct solutions required - please solve more.').exists() or Text(
                 '需要提供多个正确答案 - 请回答更多问题。').exists():
             print('*** Multiple correct solutions required - please solve more. ***')
+            click(S('#rc-button goog-inline-block rc-button-reload'))
             getAudioLink()
         delay(1)
 
@@ -411,6 +412,7 @@ urlRenew = urlDecode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLXJlbmV3')
 urlSpeech = urlDecode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
 urlMJJ = urlDecode('aHR0cDovL21qanpwLmNm')
 block = False
+robot = 0
 
 print('- loading...')
 # start_chrome(url=urlLogin)

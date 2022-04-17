@@ -119,6 +119,7 @@ def getAudioLink():
         if Text('Multiple correct solutions required - please solve more.').exists() or Text(
                 '需要提供多个正确答案 - 请回答更多问题。').exists():
             print('*** Multiple correct solutions required - please solve more. ***')
+            click(S('#rc-button goog-inline-block rc-button-reload'))
             getAudioLink()
         delay(1)
 
