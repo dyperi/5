@@ -319,22 +319,25 @@ def extendResult():
     if S('#response').exists():
         # 向下滚动
         scroll_down(num_pixels=300)
-
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
-        i = 0
-        while result == 'Robot verification failed, please try again.':
-            print('*** %s ***' % result)
-            i = i + 1
-            if i > 3:
-                print('*** Robot verification failed, stop running ***')
-                break
-            renewVPS()
+        checkResult(result)
     else:
         print(' *** 💣 some error in func renew!, stop running ***')
         screenshot()
         #renewVPS()
     return result
+
+
+def checkResult(result):
+    global robot
+    while result == 'Robot verification failed, please try again.':
+        if robot < 3:
+            robot = robot + 1
+            print('*** %s ***' % result)
+            renewVPS()
+        else:
+            result = '*** Robot verification failed, stop running. ***'
 
 
 def push(body):
