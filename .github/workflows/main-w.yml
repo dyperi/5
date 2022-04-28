@@ -19,8 +19,8 @@ jobs:
           uses: actions/checkout@v2
         - name: 'Set up chrome version'           
           uses: browser-actions/setup-chrome@latest
-        - run: chrome --version
-        - with:
+          run: chrome --version
+          with:
             chrome-version: beta
 
         - name: 'Install requirements'
