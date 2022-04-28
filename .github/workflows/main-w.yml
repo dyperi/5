@@ -19,7 +19,7 @@ jobs:
           
         - name: 'Update Chrome'           
           run: |
-            brew install --cask google-chrome
+            brew reinstall --cask google-chrome
             
         - name: 'Install requirements'
           run: |
