@@ -16,10 +16,11 @@ jobs:
     steps:
         - name: 'Checkout codes'
           uses: actions/checkout@v2
+          
         - name: 'Update Chrome'           
           run: |
-            brew cask reinstall google-chrome
-
+            brew install --cask google-chrome
+            
         - name: 'Install requirements'
           run: |
             pip3 install -r ./requirements.txt
