@@ -417,7 +417,7 @@ robot = 0
 print('- loading...')
 # start_chrome(url=urlLogin)
 # if __name__ == "__main__":
-# uc.TARGET_VERSION = 99
+uc.TARGET_VERSION = 100
 # driver = uc.Chrome()
 # driver.maximize_window()
 driver = uc.Chrome(use_subprocess=True)
