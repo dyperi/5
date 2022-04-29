@@ -319,6 +319,8 @@ def extendResult():
 
 
 def push(body):
+    if 'renewed' in body:
+        body = '🎉 ' + body
     print('- waiting for push result')
     # bark push
     if BARK_KEY == '':
