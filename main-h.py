@@ -204,10 +204,12 @@ def login():
 
 def submit():
     print('- submit')
-
-    click('Submit')
-    print('- submit clicked')
-    delay(2)
+    try:
+        click('Submit')
+        print('- submit clicked')
+        delay(2)
+    except Exception as e:
+        print('*** 💣 some error in func submit!, stop running ***\nError:', e)
 
     cloudflareDT()
 
@@ -226,7 +228,7 @@ def submit():
         print('- VPS Information found!')
         renewVPS()
     except Exception as e:
-        body = ' *** 💣 some error in func submit!, stop running ***'
+        body = '*** 💣 some error in func submit!, stop running ***'
         print('Error:', e)
         screenshot()  # debug
         sys.exit(body)
