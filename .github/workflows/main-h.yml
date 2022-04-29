@@ -4,22 +4,22 @@ on:
   #push:
   schedule:
     # UTC time (国内 UTC+8)
-     - cron: '30 4 * * *'
+     - cron: '30 4 */3 * *'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   build:
     #runs-on: macos-latest
-    runs-on: macos-10.15
+    runs-on: macos-12
 
     steps:
         - name: 'Checkout codes'
           uses: actions/checkout@v2
-#         - name: 'Set up Python'
-#           uses: actions/setup-python@v2
-#           with:
-#             python-version: '3.9.10'
+          
+        - name: 'Update Chrome'           
+          run: |
+            brew reinstall --cask google-chrome
 
         - name: 'Install requirements'
           run: |

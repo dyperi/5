@@ -119,6 +119,7 @@ def getAudioLink():
         if Text('Multiple correct solutions required - please solve more.').exists() or Text(
                 '需要提供多个正确答案 - 请回答更多问题。').exists():
             print('*** Multiple correct solutions required - please solve more. ***')
+            click(S('#rc-button goog-inline-block rc-button-reload'))
             getAudioLink()
         delay(1)
 
@@ -155,13 +156,16 @@ def reCAPTCHA():
 
 
 def cloudflareDT():
-    i = 0
-    while Text('Checking your browser before accessing').exists():
-        i = i + 1
-        print('*** cloudflare 5s detection *** ', i)
-        time.sleep(1)
-    if i > 0:
-        print('*** cloudflare 5s detection finish! ***')
+    try:
+        i = 0
+        while Text('Checking your browser before accessing').exists():
+            i = i + 1
+            print('*** cloudflare 5s detection *** ', i)
+            time.sleep(1)
+        if i > 0:
+            print('*** cloudflare 5s detection finish! ***')
+    except Exception as e:
+        print('Error:', e)
 
 
 def login():
@@ -321,12 +325,25 @@ def extendResult():
     if S('#response').exists():
         # 向下滚动
         scroll_down(num_pixels=300)
-
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
+        checkResult(result)
     else:
-        renewVPS()
+        print(' *** 💣 some error in func renew!, stop running ***')
+        screenshot()
+        #renewVPS()
     return result
+
+
+def checkResult(result):
+    global robot
+    while result == 'Robot verification failed, please try again.':
+        if robot < 3:
+            robot = robot + 1
+            print('*** %s ***' % result)
+            renewVPS()
+        else:
+            result = '*** Robot verification failed, stop running. ***'
 
 
 def push(body):
@@ -358,6 +375,7 @@ def push(body):
             print('*** tg push fail! ***', rq_tg.content.decode('utf-8'))
 
     print('- finish!')
+    kill_browser()
 
 
 def funcCAPTCHA():
@@ -400,11 +418,12 @@ urlRenew = urlDecode('aHR0cHM6Ly93b2lkZW4uaWQvdnBzLXJlbmV3')
 urlSpeech = urlDecode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
 urlMJJ = urlDecode('aHR0cDovL21qanpwLmNm')
 block = False
+robot = 0
 
 print('- loading...')
 # start_chrome(url=urlLogin)
 # if __name__ == "__main__":
-# uc.TARGET_VERSION = 99
+#uc.TARGET_VERSION = 100
 # driver = uc.Chrome()
 # driver.maximize_window()
 driver = uc.Chrome(use_subprocess=True)
