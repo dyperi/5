@@ -310,6 +310,9 @@ def extendResult():
         while result == 'Robot verification failed, please try again.':
             print('*** %s ***' % result)
             renewVPS()
+        if 'renewed' in result:
+            result = '🎉 ' + result
+            print(result)
         push(result)
     else:
         print(' *** 💣 some error in func renew!, stop running ***')
@@ -319,8 +322,6 @@ def extendResult():
 
 
 def push(body):
-    if 'renewed' in body:
-        body = '🎉 ' + body
     print('- waiting for push result')
     # bark push
     if BARK_KEY == '':
