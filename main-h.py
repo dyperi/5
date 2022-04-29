@@ -7,6 +7,7 @@ import ssl
 import sys
 import time
 import urllib
+
 import requests
 import undetected_chromedriver as uc
 from helium import *
@@ -174,7 +175,6 @@ def login():
 
     scrollDown('@login')
 
-    # else:
     print('- fill user id')
     if USER_ID == '':
         print('*** USER_ID is empty ***')
@@ -195,7 +195,6 @@ def login():
         block = reCAPTCHA()
         if block:
             print('*** Possibly blocked by google! ***')
-            # kill_broowser()
         else:
             submit()
     else:
@@ -215,9 +214,6 @@ def submit():
     try:
         wait_until(Text('Please correct your captcha!.').exists)
         print('*** Network issue maybe, reCAPTCHA load fail! ***')
-        # go_to(urlLogin)
-        # delay(2)
-        # login()
     except:
         pass
     try:
@@ -230,15 +226,10 @@ def submit():
         print('- VPS Information found!')
         renewVPS()
     except Exception as e:
-        # print('- title:', Window().title)
         body = ' *** 💣 some error in func submit!, stop running ***'
-        # login()
-        # push(body)
-        # print(body)
         print('Error:', e)
         screenshot()  # debug
         sys.exit(body)
-        # kill_browser()
 
 
 def delay(i):
@@ -295,25 +286,14 @@ def renewVPS():
                 result = [key.web_element.text for key in textList][0]
                 body = '*** Possibly blocked by google! ***'
                 print(body, '\n', result)
-                # renewVPS()
                 push(body)
-                # kill_browser()
             else:
                 click('Renew VPS')
         else:
             print('- reCAPTCHA not found!')
             click('Renew VPS')
         extendResult()
-        # print('- extend result:', body)
-        # if 'renewed' in body:
-        #     body = '🎉 ' + body
-        #     push(body)
-        # push(body)
-        # delay(2)
-        # kill_browser()
     else:
-        # renewVPS()
-        # kill_browser()
         print(' *** 💣 some error in func renew!, stop running ***')
         # screenshot()
 
@@ -366,7 +346,7 @@ def push(body):
             print('*** tg push fail! ***', rq_tg.content.decode('utf-8'))
 
     print('- finish!')
-    kill_browser()
+    # kill_browser()
 
 
 def funcCAPTCHA():
