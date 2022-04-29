@@ -7,7 +7,6 @@ import ssl
 import sys
 import time
 import urllib
-
 import requests
 import undetected_chromedriver as uc
 from helium import *
@@ -304,11 +303,11 @@ def renewVPS():
         else:
             print('- reCAPTCHA not found!')
             click('Renew VPS')
-        body = extendResult()
-        print('- extend result:', body)
-        if 'renewed' in body:
-            body = '🎉 ' + body
-            push(body)
+        extendResult()
+        # print('- extend result:', body)
+        # if 'renewed' in body:
+        #     body = '🎉 ' + body
+        #     push(body)
         # push(body)
         # delay(2)
         # kill_browser()
@@ -327,23 +326,16 @@ def extendResult():
         scroll_down(num_pixels=300)
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
-        checkResult(result)
+        # checkResult(result)
+        while result == 'Robot verification failed, please try again.':
+            print('*** %s ***' % result)
+            renewVPS()
+        push(result)
     else:
         print(' *** 💣 some error in func renew!, stop running ***')
         screenshot()
         # renewVPS()
-    return result
-
-
-def checkResult(result):
-    # global robot
-    while result == 'Robot verification failed, please try again.':
-        # if robot < 3:
-        #    robot = robot + 1
-        print('*** %s ***' % result)
-        renewVPS()
-        # else:
-        #     result = '*** Robot verification failed, stop running. ***'
+    # return result
 
 
 def push(body):
@@ -359,7 +351,6 @@ def push(body):
             print('- bark push Done!')
         else:
             print('*** bark push fail! ***', rq_bark.content.decode('utf-8'))
-
     # tg push
     if TG_BOT_TOKEN == '' or TG_USER_ID == '':
         print('*** No TG_BOT_TOKEN or TG_USER_ID ***')
@@ -402,9 +393,7 @@ def funcCAPTCHA():
     elif method == '/':
         # 应该没有 但还是写了
         captcha_result = number1 / number2
-
     print('- captcha result: %d %s %d = %s' % (number1, method, number2, captcha_result))
-
     return captcha_result
 
 
@@ -418,14 +407,9 @@ urlRenew = urlDecode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLXJlbmV3')
 urlSpeech = urlDecode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
 urlMJJ = urlDecode('aHR0cDovL21qanpwLmNm')
 block = False
-robot = 0
+# robot = 0
 
 print('- loading...')
-# start_chrome(url=urlLogin)
-# if __name__ == "__main__":
-# uc.TARGET_VERSION = 99
-# driver = uc.Chrome()
-# driver.maximize_window()
 driver = uc.Chrome(use_subprocess=True)
 driver.set_window_size(785, 627)
 delay(2)
