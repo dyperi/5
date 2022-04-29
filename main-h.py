@@ -196,7 +196,6 @@ def login():
         block = reCAPTCHA()
         if block:
             print('*** Possibly blocked by google! ***')
-            # kill_broowser()
         else:
             submit()
     else:
@@ -239,7 +238,6 @@ def submit():
         print('Error:', e)
         screenshot()  # debug
         sys.exit(body)
-        # kill_browser()
 
 
 def delay(i):
@@ -296,25 +294,14 @@ def renewVPS():
                 result = [key.web_element.text for key in textList][0]
                 body = '*** Possibly blocked by google! ***'
                 print(body, '\n', result)
-                # renewVPS()
                 push(body)
-                # kill_browser()
             else:
                 click('Renew VPS')
         else:
             print('- reCAPTCHA not found!')
             click('Renew VPS')
         extendResult()
-        # print('- extend result:', body)
-        # if 'renewed' in body:
-        #     body = '🎉 ' + body
-        #     push(body)
-        # push(body)
-        # delay(2)
-        # kill_browser()
     else:
-        # renewVPS()
-        # kill_browser()
         print(' *** 💣 some error in func renew!, stop running ***')
         # screenshot()
 
@@ -327,7 +314,7 @@ def extendResult():
         scroll_down(num_pixels=300)
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
-        #checkResult(result)
+        # checkResult(result)
         while result == 'Robot verification failed, please try again.':
             print('*** %s ***' % result)
             renewVPS()
@@ -336,8 +323,7 @@ def extendResult():
         print(' *** 💣 some error in func renew!, stop running ***')
         screenshot()
         # renewVPS()
-    #return result
-
+    # return result
 
 
 def push(body):
@@ -353,7 +339,6 @@ def push(body):
             print('- bark push Done!')
         else:
             print('*** bark push fail! ***', rq_bark.content.decode('utf-8'))
-
     # tg push
     if TG_BOT_TOKEN == '' or TG_USER_ID == '':
         print('*** No TG_BOT_TOKEN or TG_USER_ID ***')
@@ -369,7 +354,7 @@ def push(body):
             print('*** tg push fail! ***', rq_tg.content.decode('utf-8'))
 
     print('- finish!')
-    kill_browser()
+    # kill_browser()
 
 
 def funcCAPTCHA():
@@ -396,9 +381,7 @@ def funcCAPTCHA():
     elif method == '/':
         # 应该没有 但还是写了
         captcha_result = number1 / number2
-
     print('- captcha result: %d %s %d = %s' % (number1, method, number2, captcha_result))
-
     return captcha_result
 
 
@@ -412,14 +395,9 @@ urlRenew = urlDecode('aHR0cHM6Ly9oYXguY28uaWQvdnBzLXJlbmV3')
 urlSpeech = urlDecode('aHR0cHM6Ly9zcGVlY2gtdG8tdGV4dC1kZW1vLm5nLmJsdWVtaXgubmV0')
 urlMJJ = urlDecode('aHR0cDovL21qanpwLmNm')
 block = False
-#robot = 0
+# robot = 0
 
 print('- loading...')
-# start_chrome(url=urlLogin)
-# if __name__ == "__main__":
-# uc.TARGET_VERSION = 99
-# driver = uc.Chrome()
-# driver.maximize_window()
 driver = uc.Chrome(use_subprocess=True)
 driver.set_window_size(785, 627)
 delay(2)
