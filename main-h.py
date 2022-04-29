@@ -278,6 +278,7 @@ def renewVPS():
         print('- fill captcha result')
         write(captcha, into=S('@captcha'))
         print('- check agreement')
+        scrollDown('@agreement')
         click(S('@agreement'))
         # if Text('reCAPTCHA').exists():
         if Text('I\'m not a robot').exists() or Text('我不是机器人').exists():
@@ -309,10 +310,10 @@ def extendResult():
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
         # checkResult(result)
-        while result == 'Robot verification failed, please try again.':
+        if 'Robot verification failed' in result:
             print('*** %s ***' % result)
             renewVPS()
-        if 'renewed' in result:
+        elif 'renewed' in result:
             result = '🎉 ' + result
             print(result)
         push(result)
