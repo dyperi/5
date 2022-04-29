@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 # https://github.com/mybdye 🌟
 
+import base64
 import os
 import ssl
 import sys
 import time
-import base64
 import urllib
+
 import requests
 import undetected_chromedriver as uc
-
 from helium import *
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 # 关闭证书验证
@@ -129,6 +128,11 @@ def getAudioLink():
         body = ' *** 💣 Possibly blocked by google! ***\n' + textblock
         push(body)
         block = True
+
+    elif not CheckBox('I\'m not a robot').is_checked() or CheckBox('我不是机器人').is_checked():
+        print('*** checkbox issue ***')
+        reCAPTCHA()
+
     else:
         print('*** audio download element not found, stop running ***')
         # print('- title:', Window().title)
@@ -303,8 +307,9 @@ def renewVPS():
         body = extendResult()
         if 'renewed' in body:
             body = '🎉 ' + body
+            push(body)
         print('- extend result:', body)
-        push(body)
+        # push(body)
         # delay(2)
         # kill_browser()
     else:
@@ -326,7 +331,7 @@ def extendResult():
     else:
         print(' *** 💣 some error in func renew!, stop running ***')
         screenshot()
-        #renewVPS()
+        # renewVPS()
     return result
 
 
@@ -370,6 +375,7 @@ def push(body):
             print('*** tg push fail! ***', rq_tg.content.decode('utf-8'))
 
     print('- finish!')
+    kill_browser()
 
 
 def funcCAPTCHA():

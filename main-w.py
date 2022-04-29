@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 # https://github.com/mybdye 🌟
 
+import base64
 import os
 import ssl
 import sys
 import time
-import base64
 import urllib
+
 import requests
 import undetected_chromedriver as uc
-
 from helium import *
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 # 关闭证书验证
@@ -137,7 +136,7 @@ def getAudioLink():
     else:
         print('*** audio download element not found, stop running ***')
         # print('- title:', Window().title)
-        screenshot() # debug
+        screenshot()  # debug
 
 
 def reCAPTCHA():
@@ -308,8 +307,9 @@ def renewVPS():
         body = extendResult()
         if 'renewed' in body:
             body = '🎉 ' + body
+            push(body)
         print('- extend result:', body)
-        push(body)
+        # push(body)
         # delay(2)
         # kill_browser()
     else:
@@ -331,7 +331,7 @@ def extendResult():
     else:
         print(' *** 💣 some error in func renew!, stop running ***')
         screenshot()
-        #renewVPS()
+        # renewVPS()
     return result
 
 
@@ -423,7 +423,7 @@ robot = 0
 print('- loading...')
 # start_chrome(url=urlLogin)
 # if __name__ == "__main__":
-#uc.TARGET_VERSION = 100
+# uc.TARGET_VERSION = 100
 # driver = uc.Chrome()
 # driver.maximize_window()
 driver = uc.Chrome(use_subprocess=True)
