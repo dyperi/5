@@ -304,11 +304,11 @@ def renewVPS():
         else:
             print('- reCAPTCHA not found!')
             click('Renew VPS')
-        body = extendResult()
-        print('- extend result:', body)
-        if 'renewed' in body:
-            body = '🎉 ' + body
-            push(body)
+        extendResult()
+        # print('- extend result:', body)
+        # if 'renewed' in body:
+        #     body = '🎉 ' + body
+        #     push(body)
         # push(body)
         # delay(2)
         # kill_browser()
@@ -327,23 +327,17 @@ def extendResult():
         scroll_down(num_pixels=300)
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
-        checkResult(result)
+        #checkResult(result)
+        while result == 'Robot verification failed, please try again.':
+            print('*** %s ***' % result)
+            renewVPS()
+        push(result)
     else:
         print(' *** 💣 some error in func renew!, stop running ***')
         screenshot()
         # renewVPS()
-    return result
+    #return result
 
-
-def checkResult(result):
-    # global robot
-    while result == 'Robot verification failed, please try again.':
-        # if robot < 3:
-        #    robot = robot + 1
-        print('*** %s ***' % result)
-        renewVPS()
-        # else:
-        #     result = '*** Robot verification failed, stop running. ***'
 
 
 def push(body):
