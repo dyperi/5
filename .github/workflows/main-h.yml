@@ -4,7 +4,7 @@ on:
   #push:
   schedule:
     # UTC time (国内 UTC+8)
-     - cron: '30 4 */3 * *'
+     - cron: '30 14 * * *'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -26,7 +26,7 @@ jobs:
             pip3 install -r ./requirements.txt
             pip3 install undetected-chromedriver
             
-        - name: 'Working'
+        - name: 'Renew'
           env:
             USER_ID: ${{ secrets.USER_ID }}
             PASS_WD: ${{ secrets.PASS_WD }}

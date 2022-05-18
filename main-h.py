@@ -175,7 +175,6 @@ def login():
 
     scrollDown('@login')
 
-    # else:
     print('- fill user id')
     if USER_ID == '':
         print('*** USER_ID is empty ***')
@@ -205,19 +204,18 @@ def login():
 
 def submit():
     print('- submit')
-
-    click('Submit')
-    print('- submit clicked')
-    delay(2)
+    try:
+        click('Submit')
+        print('- submit clicked')
+        delay(2)
+    except Exception as e:
+        print('*** 💣 some error in func submit!, stop running ***\nError:', e)
 
     cloudflareDT()
 
     try:
         wait_until(Text('Please correct your captcha!.').exists)
         print('*** Network issue maybe, reCAPTCHA load fail! ***')
-        # go_to(urlLogin)
-        # delay(2)
-        # login()
     except:
         pass
     try:
@@ -230,11 +228,7 @@ def submit():
         print('- VPS Information found!')
         renewVPS()
     except Exception as e:
-        # print('- title:', Window().title)
-        body = ' *** 💣 some error in func submit!, stop running ***'
-        # login()
-        # push(body)
-        # print(body)
+        body = '*** 💣 some error in func submit!, stop running ***'
         print('Error:', e)
         screenshot()  # debug
         sys.exit(body)
@@ -284,6 +278,7 @@ def renewVPS():
         print('- fill captcha result')
         write(captcha, into=S('@captcha'))
         print('- check agreement')
+        scrollDown('@agreement')
         click(S('@agreement'))
         # if Text('reCAPTCHA').exists():
         if Text('I\'m not a robot').exists() or Text('我不是机器人').exists():
@@ -315,10 +310,13 @@ def extendResult():
         textList = find_all(S('#response'))
         result = [key.web_element.text for key in textList][0]
         # checkResult(result)
-        while result == 'Robot verification failed, please try again.':
+        if 'Robot verification failed' in result:
             print('*** %s ***' % result)
             renewVPS()
-        push(result)
+        elif 'renewed' in result:
+            result = '🎉 ' + result
+            print(result)
+            push(result)
     else:
         print(' *** 💣 some error in func renew!, stop running ***')
         screenshot()
