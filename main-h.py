@@ -172,7 +172,8 @@ def login():
     # CF
     cloudflareDT()
 
-    scrollDown('@login')
+    #scrollDown('@login')
+    scrollDown('.btn btn-primary')
 
     print('- fill user id')
     if USER_ID == '':
