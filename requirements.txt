@@ -1,4 +1,3 @@
 urllib3
 requests
 helium
-selenium<4.3.0
